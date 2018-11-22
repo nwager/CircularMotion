@@ -5,4 +5,5 @@ This product is a webpage with three 2D interactive physics animations. Each add
 
 
 # Attributions
-https://stackoverflow.com/a/28207847
+https://stackoverflow.com/a/28207847\
+https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial\
