@@ -1,3 +1,33 @@
+body {
+    background-color: #313639;
+    color: #DADCE0;
+    font-family: 'Lato', sans-serif;
+}
+
 h1 {
     text-align: center;
+    padding-top: 50px;
+}
+
+p {
+    text-align: left;
+    margin-left: 200px;
+}
+
+input {
+    margin-left: 200px;
+}
+
+/* source: https://stackoverflow.com/a/7782251 */
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    background-color: lightgray;
+}
+
+#canvas1 {
+	background-color: red;
 }
