@@ -10,3 +10,7 @@ https://stackoverflow.com/a/28207847
 https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API/Tutorial
 
 https://stackoverflow.com/a/7782251
+
+http://www.williammalone.com/briefs/how-to-draw-ellipse-html5-canvas/
+
+https://www.mathjax.org/
