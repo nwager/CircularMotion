@@ -3,6 +3,8 @@ var fps = 50;
 var angVelText = document.getElementById("angVelText");
 var angVelInput = document.getElementById("angularVelocity1");
 
+var linVelText = document.getElementById("linVelText");
+
 window.onload = startGame;
 
 function startGame() {
@@ -90,6 +92,7 @@ function updateSimArea1() {
         ypos - Math.sin(circle1.radians + Math.PI/2) * circle1.angularVelocity / 50 * 1000);
     ctx.lineWidth = 3;
     ctx.stroke();
+    ctx.closePath();
 
     //centripetal force line
     ctx.beginPath();
@@ -98,8 +101,16 @@ function updateSimArea1() {
         ypos - Math.sin(circle1.radians + Math.PI) * circle1.angularVelocity / 50 * 1000);
     ctx.lineWidth = 3;
     ctx.stroke();
+    ctx.closePath();
+
+
+    linVel1 = circle1.mass * circle1.angularVelocity;
+
+    console.log(typeof(circle1.mass), typeof(circle1.angularVelocity));
+    ///////// Text displays //////////
 
     angVelText.innerHTML = circle1.angularVelocity;
+    linVelText.innerHTML = linVel1;
 
 }
 
@@ -115,7 +126,7 @@ function updateSimArea2 () {
     frictionEllipse.radians += Math.PI / fps;
 
     xpos = frictionEllipse.initialx - (Math.cos(circle1.radians) * 85);
-    ypos = frictionEllipse.initialy - (Math.sin(circle1.radians) * 20);
+    ypos = frictionEllipse.initialy - (Math.sin(circle1.radians) * 22);
 
     frictionEllipse.x = xpos;
     frictionEllipse.y = ypos;
@@ -124,8 +135,8 @@ function updateSimArea2 () {
     //movement line
     ctx.beginPath();
     ctx.moveTo(simArea2.canvas.width/2, simArea2.canvas.height/2);
-    ctx.lineTo(simArea2.canvas.width/2 - (100 * Math.cos(circle1.radians + Math.PI/2)),
-        simArea2.canvas.height/2 - (31 * Math.sin(circle1.radians + Math.PI/2)));
+    ctx.lineTo(simArea2.canvas.width/2 - (100 * Math.cos(circle1.radians + Math.PI)),
+        simArea2.canvas.height/2 - (31 * Math.sin(circle1.radians + Math.PI)));
     ctx.strokeStyle = "blue";
     ctx.lineWidth = 2;
     ctx.stroke();
