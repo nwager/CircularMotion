@@ -1,11 +1,35 @@
 <DOCTYPE HTML>
-<htm lang="en">
+<html lang="en">
 <head>
     <title>SL Circular Motion</title>
     <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
+	
+	<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+    </script>
+    <!-- https://www.mathjax.org/ -->
 </head>
 <body>
     <h1>Uniform Circular Motion</h1>
-    <p>Sims go here</p>
+    <p>Uniform circular motion. \(F_c = {m v^2 \over r}\), \(v = \omega r\)</p>
+    <p>The angular velocity is <span id="angVelText">number</span> radians per second.</p>
+    <input type="text" id="angularVelocity1" value="3.14"> radians/s
+    <p></p>
+    <canvas id="canvas1" width="600" height="300">
+        Your browser doesn't support canvas.
+    </canvas>
+	
+    <p></p>
+    <p>Maximum friction force</p>
+    <input type="text" id="mass1" value="1">
+    <p></p>
+    <canvas id="canvas2" width="600" height="300">
+        Your browser doesn't support canvas.
+    </canvas>
+
+    <script src="democanvas.js"></script>
+	
 </body>
 </html>

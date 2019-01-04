@@ -6,12 +6,15 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet">
 	
-	<script src="canvas1.js"></script>
-	<script src="canvas2.js"></script>
+	<script type="text/javascript" async
+        src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+    </script>
+    <!-- https://www.mathjax.org/ -->
 </head>
 <body>
     <h1>Uniform Circular Motion</h1>
-    <p>Uniform circular motion.</p>
+    <p>Uniform circular motion. \(F_c = {m v^2 \over r}\), \(v = \omega r\)</p>
+    <p>The angular velocity is <span id="angVelText">number</span> radians per second.</p>
     <input type="text" id="angularVelocity1" value="3.14"> radians/s
     <p></p>
     <canvas id="canvas1" width="600" height="300">
@@ -25,8 +28,8 @@
     <canvas id="canvas2" width="600" height="300">
         Your browser doesn't support canvas.
     </canvas>
+
+    <script src="democanvas.js"></script>
 	
 </body>
-
-<!--script src="democanvas.js"></script-->
 </html>
