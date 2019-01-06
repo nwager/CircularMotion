@@ -8,17 +8,47 @@
 	
 	<script type="text/javascript" async
         src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async>
+        
+        MathJax.Hub.Config({
+            jax: ["input/TeX","output/HTML-CSS"],
+            displayAlign: "left"
+        });
+
     </script>
     <!-- https://www.mathjax.org/ -->
 </head>
 <body>
     <h1>Uniform Circular Motion</h1>
-    <p>Uniform circular motion. \(F_c = {m v^2 \over r}\), \(v = \omega r\)</p>
-    <p>Mass (\(m\)): <span id="massText">number</span> kg.</p>
-    <p>Angular velocity \(\omega\): <span id="angVelText">number</span> rad/s.</p>
-    <p>Linear velocity \(v\): <span id="linVelText">number</span> m/s.</p>
-    <p>Centripetal force \(F_c\): <span id="cenForText">number</span> N.</p>
-    <input type="text" id="angularVelocity1" value="3.14"> rad/s
+    
+    <p>Uniform circular motion - \(F_c = {m v^2 \over r}\), \(v = \omega r\)</p>
+
+    <table>
+        <tr>
+            <td>Mass (\(m\))</td>
+            <td><span class="display" id="massText">number</span> kg.</td>
+        </tr>
+        <tr>
+            <td>Angular velocity (\(\omega\))</td>
+            <td><span class="display" id="angVelText">number</span> rad/s.</td>
+        </tr>
+        <tr>
+            <td>Linear velocity (\(v\))</td>
+            <td><span class="display" id="linVelText">number</span> m/s.</td>
+        </tr>
+        <tr>
+            <td>Centripetal force (\(F_c\))</td>
+            <td><span class="display" id="cenForText">number</span> N.</td>
+        </tr>
+    </table>
+
+    <!--
+    <p>Mass (\(m\)): <span class="display" id="massText">number</span> kg.</p>
+    <p>Angular velocity \(\omega\): <span class="display" id="angVelText">number</span> rad/s.</p>
+    <p>Linear velocity \(v\): <span class="display" id="linVelText">number</span> m/s.</p>
+    <p>Centripetal force \(F_c\): <span class="display" id="cenForText">number</span> N.</p>
+    -->
+    <input type="text" id="angularVelocity1" value="3.14"> rad/s</input>
+
     <p></p>
     <canvas id="canvas1" width="600" height="300">
         Your browser doesn't support canvas.
@@ -34,5 +64,19 @@
 
     <script src="democanvas.js"></script>
 	
+    <p id="equations"><strong>Uniform Circular Motion Equations</strong><br>
+    $$
+    \begin{equation}
+    a_c = {v^2 \over r} = \omega^2 r \\
+    F_c = m a_c = {m v^2 \over r} \\[16pt]
+    F_f = \mu F_N \\
+    \omega = {2 \pi \over T} \\
+    v = \omega r \\[16pt]
+    T = {1 \over f} \\
+    f = {1 \over T} \\
+    \end{equation}
+    $$
+    </p>
+
 </body>
 </html>
