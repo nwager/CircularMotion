@@ -1,6 +1,5 @@
 var fps = 50;
 
-var angVelText = document.getElementById("angVelText");
 var angVelInput = document.getElementById("angularVelocity1");
 var cenForText = document.getElementById("cenForText");
 var massText = document.getElementById("massText");
@@ -26,12 +25,22 @@ function startGame() {
     ellipse2 = new ellipse("simArea2", simArea2.canvas.width/2, simArea2.canvas.height/2, 200, 80);
     frictionEllipse = new ellipse("simArea2", simArea2.canvas.width/2, simArea2.canvas.height/2, 22, 12, "red");
 
+    //canvas3
+    simArea3.start();
+    
+    circle3 = new circle("simArea3", simArea3.canvas.width/2, simArea3.canvas.height/1.7,
+        10, 0, 2 * Math.PI, 80, Math.PI, "black", 1);
+
     simArea1.canvas.onclick = function() {
         simArea1.isPaused = !simArea1.isPaused;
     };
 
     simArea2.canvas.onclick = function() {
         simArea2.isPaused = !simArea2.isPaused;
+    };
+
+    simArea3.canvas.onclick = function() {
+        simArea3.isPaused = !simArea3.isPaused;
     };
 
 }
@@ -60,6 +69,21 @@ var simArea2 = {
         this.canvas.height = window.innerHeight - 400;
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateSimArea2, 1000 / fps);
+        this.isPaused = false;
+    },
+    clear : function() {
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    }
+}
+
+var simArea3 = {
+    canvas : document.getElementById("canvas3"),
+    isPaused : false,
+    start : function() {
+        this.canvas.width = window.innerWidth - 400;
+        this.canvas.height = window.innerHeight - 400;
+        this.context = this.canvas.getContext("2d");
+        this.interval = setInterval(updateSimArea3, 1000 / fps);
         this.isPaused = false;
     },
     clear : function() {
@@ -173,7 +197,6 @@ function updateSimArea1() {
 
     ///////// Text displays //////////
 
-    angVelText.innerHTML = circle1.angularVelocity;
     linVelText.innerHTML = linVel1.toFixed(2);
     cenForText.innerHTML = (Math.pow(linVel1, 2) * circle1.mass / circle1.pathRadius).toFixed(2);
     massText.innerHTML = circle1.mass;
@@ -225,6 +248,43 @@ function updateSimArea2 () {
     
 
 }
+
+//region
+function updateSimArea3 () {
+    
+    ctx = simArea3.context;
+
+    if (simArea3.isPaused == true) {
+
+        ctx.font = "30px Lato";
+        ctx.fillStyle = "#303639";
+        ctx.fillText("Paused", simArea3.canvas.width - 115, 35);
+
+        return;
+
+    } else {
+        ctx.fillStyle = "lightgray";
+        ctx.fillText("Paused", simArea3.canvas.width - 50, 10);
+
+    }
+
+    simArea3.clear();
+
+
+    circle3.radians += circle3.angularVelocity / fps;
+
+    xpos = circle3.initialx - (Math.cos(circle3.radians) * circle3.pathRadius);
+    ypos = circle3.initialy - (Math.sin(circle3.radians) * 0.5 * circle3.pathRadius);
+
+    circle3.x = xpos;
+    circle3.y = ypos;
+
+    circle3.update();
+
+
+}
+//endregion
+
 
 /////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////

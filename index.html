@@ -25,19 +25,20 @@
     <table>
         <tr>
             <td>Mass (\(m\))</td>
-            <td><span class="display" id="massText">number</span> kg.</td>
+            <td><span class="display" id="massText">number</span> kg</td>
         </tr>
         <tr>
             <td>Angular velocity (\(\omega\))</td>
-            <td><span class="display" id="angVelText">number</span> rad/s.</td>
+            <td><input type="text" id="angularVelocity1" value="3.14"> rad/s</input>
+</td>
         </tr>
         <tr>
             <td>Linear velocity (\(v\))</td>
-            <td><span class="display" id="linVelText">number</span> m/s.</td>
+            <td><span class="display" id="linVelText">number</span> m/s</td>
         </tr>
         <tr>
             <td>Centripetal force (\(F_c\))</td>
-            <td><span class="display" id="cenForText">number</span> N.</td>
+            <td><span class="display" id="cenForText">number</span> N</td>
         </tr>
     </table>
 
@@ -47,7 +48,6 @@
     <p>Linear velocity \(v\): <span class="display" id="linVelText">number</span> m/s.</p>
     <p>Centripetal force \(F_c\): <span class="display" id="cenForText">number</span> N.</p>
     -->
-    <input type="text" id="angularVelocity1" value="3.14"> rad/s</input>
 
     <p></p>
     <canvas id="canvas1" width="600" height="300">
@@ -59,6 +59,12 @@
     <input type="text" id="mass1" value="1">
     <p></p>
     <canvas id="canvas2" width="600" height="300">
+        Your browser doesn't support canvas.
+    </canvas>
+
+    <p></p>
+    <p>Angled string tension</p>
+    <canvas id="canvas3" width="600" height="300">
         Your browser doesn't support canvas.
     </canvas>
 
