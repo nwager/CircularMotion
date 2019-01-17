@@ -16,3 +16,5 @@ http://www.williammalone.com/briefs/how-to-draw-ellipse-html5-canvas/
 https://www.mathjax.org/
 
 https://stackoverflow.com/a/11296416
+
+https://stackoverflow.com/a/26202266
