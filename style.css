@@ -9,16 +9,16 @@ h1 {
     padding-top: 50px;
 }
 
+body {
+    margin-left: 25vw;
+}
+
 p {
     text-align: left;
-    margin-left: 200px;
-    margin-right: 200px;
 }
 
 input {
-    /*margin-left: 200px;
-    padding: 5px 10px;*/
-    width: 80px;
+    width: 60px;
     font-family: 'Lato', sans-serif;
     font-size: 16px;
     background-color: #1f1f1f;
@@ -26,24 +26,8 @@ input {
     color: lemonchiffon;
 }
 
-/* source: https://stackoverflow.com/a/7782251 */
-canvas {
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    background-color: lightgray;
-    border:4px solid gray;
-}
-
 .display {
     color: lemonchiffon;
-}
-
-table {
-    margin-left: 200px;
-    margin-right: 200px;
 }
 
 th, td {
@@ -51,3 +35,13 @@ th, td {
     /*border: 1px solid black;*/
 }
 
+/* source: https://stackoverflow.com/a/7782251 */
+canvas {
+    padding-left: 0;
+    padding-right: 0;
+    margin-left: 0;
+    margin-right: 0;
+    display: block;
+    background-color: lightgray;
+    border:4px solid gray;
+}

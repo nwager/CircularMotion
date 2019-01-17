@@ -1,11 +1,27 @@
+//#region initVars
 var fps = 50;
+var gravity = 9.8;
 
-var angVelInput = document.getElementById("angularVelocity1");
-var cenForText = document.getElementById("cenForText");
-var massText = document.getElementById("massText");
+var massInput1 = document.getElementById("mass1");
+var radiusInput1 = document.getElementById("radius1");
+var angVelInput1 = document.getElementById("angularVelocity1");
+var cenForce1 = document.getElementById("cenForceText1");
+var linVel1 = document.getElementById("linVelText1");
 
-var linVelText = document.getElementById("linVelText");
+var massInput2 = document.getElementById("mass2");
+var radiusInput2 = document.getElementById("radius2");
+var angVelInput2 = document.getElementById("angularVelocity2");
 
+var massInput3 = document.getElementById("mass3");
+var radiusInput3 = document.getElementById("radius3");
+var angVelInput3 = document.getElementById("angularVelocity3");
+var linVelInput3 = document.getElementById("linearVelocity3");
+var tenForceText3 = document.getElementById("tenForceText3");
+var angleText3 = document.getElementById("angleText3");
+
+//#endregion initVars
+
+//#region startGame
 window.onload = startGame;
 
 function startGame() {
@@ -43,15 +59,35 @@ function startGame() {
         simArea3.isPaused = !simArea3.isPaused;
     };
 
+    // source: https://stackoverflow.com/a/26202266
+    massInput3.oninput = function() {updateTension()};
+    radiusInput3.oninput = function() {updateTension()};
+    angVelInput3.oninput = function() {updateTension()};
+    linVelInput3.oninput = function() {updateTension()};
+
 }
 
+//#endregion startGame
 
+//#region simAreaInits
 var simArea1 = {
     canvas : document.getElementById("canvas1"),
     isPaused : false,
     start : function() {
-        this.canvas.width = window.innerWidth - 400;
-        this.canvas.height = window.innerHeight - 400;
+        if (window.innerWidth/2 >= 250)
+        {
+            this.canvas.width = window.innerWidth/2;
+        } else {
+            this.canvas.width = 250;
+        }
+        if (window.innerHeight/2  >= 250)
+        {
+            this.canvas.height = window.innerHeight/2;
+        }
+        else {
+            this.canvas.height = 250;
+        }
+
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateSimArea1, 1000 / fps);
         this.isPaused = false;
@@ -65,8 +101,20 @@ var simArea2 = {
     canvas : document.getElementById("canvas2"),
     isPaused : false,
     start : function() {
-        this.canvas.width = window.innerWidth - 400;
-        this.canvas.height = window.innerHeight - 400;
+        if (window.innerWidth/2 >= 250)
+        {
+            this.canvas.width = window.innerWidth/2;
+        } else {
+            this.canvas.width = 250;
+        }
+        if (window.innerHeight/2  >= 250)
+        {
+            this.canvas.height = window.innerHeight/2;
+        }
+        else {
+            this.canvas.height = 250;
+        }
+
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateSimArea2, 1000 / fps);
         this.isPaused = false;
@@ -80,8 +128,20 @@ var simArea3 = {
     canvas : document.getElementById("canvas3"),
     isPaused : false,
     start : function() {
-        this.canvas.width = window.innerWidth - 400;
-        this.canvas.height = window.innerHeight - 400;
+        if (window.innerWidth/2 >= 250)
+        {
+            this.canvas.width = window.innerWidth/2;
+        } else {
+            this.canvas.width = 250;
+        }
+        if (window.innerHeight/2  >= 250)
+        {
+            this.canvas.height = window.innerHeight/2;
+        }
+        else {
+            this.canvas.height = 250;
+        }
+
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateSimArea3, 1000 / fps);
         this.isPaused = false;
@@ -90,17 +150,13 @@ var simArea3 = {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
     }
 }
+//#endregion simAreaInits
 
-
-/////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-//////////// U P D A T E   F U N C T I O N S ////////////
-/////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////
-
+//#region updateSimArea1
 function updateSimArea1() {
 
     ctx = simArea1.context;
+
     if (simArea1.isPaused == true) {
 
         ctx.font = "30px Lato";
@@ -113,22 +169,38 @@ function updateSimArea1() {
         ctx.fillStyle = "lightgray";
         ctx.fillText("Paused", simArea1.canvas.width - 50, 10);
 
-    }
-            
+    }            
 
     simArea1.clear();
 
+    circle1.mass = parseFloat(massInput1.value);
+    circle1.pathRadius = parseFloat(radiusInput1.value) * 20;
+    circle1.angularVelocity = parseFloat(angVelInput1.value);
 
-    //moving circle -- update function at bottom so it draws over arrows
-    circle1.angularVelocity = parseFloat(angVelInput.value);
+    if (isNaN(circle1.mass)) {
+        circle1.mass = 0;
+        massInput1.value = 0;
+    }
+
+    if (isNaN(circle1.pathRadius)) {
+        circle1.pathRadius = 5;
+    }
+
+    if (circle1.pathRadius > 200) {
+        circle1.pathRadius = 200;
+        radiusInput1.value = 10;
+    }
+
     if (isNaN(circle1.angularVelocity)) {
         circle1.angularVelocity = 0;
     }
 
     if (circle1.angularVelocity > 10) {
         circle1.angularVelocity = 10;
-        angVelInput.value = 10;
+        angVelInput1.value = 10;
     }
+
+    pathRadiusMeters = circle1.pathRadius / 20;
 
     circle1.radians += circle1.angularVelocity / fps;
 
@@ -139,24 +211,25 @@ function updateSimArea1() {
     circle1.y = ypos;
     
 
-    //circle path
+    //circle path and radius
     ctx.beginPath();
     ctx.strokeStyle = "black";
-    ctx.setLineDash([5, 3]);
-    ctx.arc(simArea1.canvas.width/2, simArea1.canvas.height/2, circle1.pathRadius, 0, 2 * Math.PI);
     ctx.lineWidth = 1;
-    ctx.stroke();
-    ctx.closePath();
-
-    //circle path radius
-    ctx.beginPath();
     ctx.setLineDash([5, 3]);
-    ctx.strokeStyle = "black";
+
+    //path
+    ctx.arc(simArea1.canvas.width/2, simArea1.canvas.height/2, circle1.pathRadius, 0, 2 * Math.PI);
+
+    //radius
     ctx.moveTo(simArea1.canvas.width/2, simArea1.canvas.height/2);
-    ctx.lineTo(simArea1.canvas.width/2, simArea1.canvas.height/2 - circle1.pathRadius);
+    ctx.lineTo(simArea1.canvas.width/2 - circle1.pathRadius, simArea1.canvas.height/2);
+    ctx.stroke();
     ctx.setLineDash([1, 0]);
     ctx.closePath();
 
+    ctx.font = "16px Lato";
+    ctx.fillStyle = "black";
+    ctx.fillText(pathRadiusMeters + " m", simArea1.canvas.width/2 - circle1.pathRadius/2, simArea1.canvas.height/2 + 16);
 
 
     //centripetal force line
@@ -197,12 +270,14 @@ function updateSimArea1() {
 
     ///////// Text displays //////////
 
-    linVelText.innerHTML = linVel1.toFixed(2);
-    cenForText.innerHTML = (Math.pow(linVel1, 2) * circle1.mass / circle1.pathRadius).toFixed(2);
-    massText.innerHTML = circle1.mass;
+    linVel1.innerHTML = (circle1.angularVelocity * pathRadiusMeters).toFixed(2);
+    cenForce1.innerHTML = (Math.pow((circle1.angularVelocity * pathRadiusMeters), 2) 
+        * circle1.mass / pathRadiusMeters).toFixed(2);
 
 }
+//#endregion updateSimArea1
 
+//#region updateSimArea2
 function updateSimArea2 () {
 
 
@@ -248,18 +323,59 @@ function updateSimArea2 () {
     
 
 }
+//#endregion updateSimArea2
 
-//region
+//#region updateSimArea3
 function updateSimArea3 () {
     
     ctx = simArea3.context;
 
-    if (simArea3.isPaused == true) {
+    width = simArea3.canvas.width;
+    height = simArea3.canvas.height;
 
+
+    if (simArea3.isPaused == true) {
+        if (Math.cos(circle3.radians) <= -0.8 && circle3.x != circle3.initialx - (-circle3.pathRadius))
+        {
+            xpos = circle3.initialx - (-circle3.pathRadius); // - (Math.cos(Math.PI) * circle3.pathRadius)
+            ypos = circle3.initialy; // - (Math.sin(Math.PI) * 0.25 * circle3.pathRadius)
+
+            circle3.x = xpos;
+            circle3.y = ypos;
+
+            simArea3.clear();
+            circle3.update();
+
+            ctx.beginPath();
+            ctx.moveTo(width/2, 3 * height/4);
+            ctx.lineTo(width/2, height/4);
+            ctx.lineTo(circle3.x, circle3.y);
+            ctx.stroke();
+            ctx.closePath();
+
+        } else if (Math.cos(circle3.radians) >= 0.8 && circle3.x != circle3.initialx - (circle3.pathRadius))
+        {
+            xpos = circle3.initialx - (circle3.pathRadius);
+            ypos = circle3.initialy;
+
+            circle3.x = xpos;
+            circle3.y = ypos;
+
+            simArea3.clear();
+            circle3.update();
+
+            ctx.beginPath();
+            ctx.moveTo(width/2, 3 * height/4);
+            ctx.lineTo(width/2, height/4);
+            ctx.lineTo(circle3.x, circle3.y);
+            ctx.stroke();
+            ctx.closePath();
+
+        }
         ctx.font = "30px Lato";
         ctx.fillStyle = "#303639";
         ctx.fillText("Paused", simArea3.canvas.width - 115, 35);
-
+        
         return;
 
     } else {
@@ -270,29 +386,68 @@ function updateSimArea3 () {
 
     simArea3.clear();
 
+    circle3.mass = parseFloat(massInput3.value);
+    circle3.angularVelocity = parseFloat(angVelInput3.value);
+    circle3.pathRadius = parseFloat(radiusInput3.value) * 20;
 
+    if (isNaN(circle3.mass)) {
+        circle3.mass = 0;
+        massInput3.value = 0;
+    }
+
+    if (isNaN(circle3.pathRadius)) {
+        circle3.pathRadius = 5;
+    }
+
+    if (circle3.pathRadius > 200) {
+        circle3.pathRadius = 200;
+        radiusInput3.value = 10;
+    }
+
+    if (isNaN(circle3.angularVelocity)) {
+        circle3.angularVelocity = 0;
+    }
+
+    if (circle3.angularVelocity > 10) {
+        circle3.angularVelocity = 10;
+        angVelInput3.value = 10;
+    }
+
+    pathRadiusMeters = circle3.pathRadius / 20;
     circle3.radians += circle3.angularVelocity / fps;
 
     xpos = circle3.initialx - (Math.cos(circle3.radians) * circle3.pathRadius);
-    ypos = circle3.initialy - (Math.sin(circle3.radians) * 0.5 * circle3.pathRadius);
+    ypos = circle3.initialy - (Math.sin(circle3.radians) * 0.25 * circle3.pathRadius);
 
     circle3.x = xpos;
     circle3.y = ypos;
 
     circle3.update();
 
+    ctx.beginPath();
+    ctx.moveTo(width/2, 3 * height/4);
+    ctx.lineTo(width/2, height/4);
+    ctx.lineTo(circle3.x, circle3.y);
+    ctx.stroke();
+    ctx.closePath();
 
 }
-//endregion
 
+function updateTension () {
+    tensionX = (Math.pow((circle3.angularVelocity * pathRadiusMeters), 2) 
+        * circle3.mass / pathRadiusMeters).toFixed(2);
+    tensionY = circle3.mass * gravity;
+    tensionMag = (Math.sqrt(Math.pow(tensionX, 2) + Math.pow(tensionY, 2))).toFixed(2);
 
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-//////////////////////////// S H A P E S ////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////
+    tenForceText3.innerHTML = tensionMag;
 
+    angle = Math.atan(tensionX/tensionY) * 180 / Math.PI;
+    angleText3.innerHTML = angle.toFixed(2);
 
+}
+//#endregion updateSimArea3
+
+//#region components
 function rectangle(width, height, color, x, y) {
     this.width = width;
     this.height = height;
@@ -405,3 +560,4 @@ function drawArrow(fromx, fromy, tox, toy, color = "black", len = 4, width = 6){
     ctx.fill();
     ctx.closePath();
 }
+//#endregion components
