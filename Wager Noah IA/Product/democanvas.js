@@ -11,6 +11,10 @@ var linVel1 = document.getElementById("linVelText1");
 var massInput2 = document.getElementById("mass2");
 var radiusInput2 = document.getElementById("radius2");
 var angVelInput2 = document.getElementById("angularVelocity2");
+var coefInput2 = document.getElementById("coef2");
+var cenForceText2 = document.getElementById("cenForceText2");
+var fricForceText2 = document.getElementById("fricForceText2");
+var minCoefLabel2 = document.getElementById("coefLabel2");
 
 var massInput3 = document.getElementById("mass3");
 var radiusInput3 = document.getElementById("radius3");
@@ -31,15 +35,15 @@ function startGame() {
 
     //canvas1
     simArea1.start();
-
+    console.log(massInput3);
     circle1 = new circle("simArea1", simArea1.canvas.width/2, simArea1.canvas.height/2, 
         10, 0, 2 * Math.PI, 80, 1, "black", 1);
     
     //canvas2
     simArea2.start();
 
-    ellipse2 = new ellipse("simArea2", simArea2.canvas.width/2, simArea2.canvas.height/2, 200, 80);
-    frictionEllipse = new ellipse("simArea2", simArea2.canvas.width/2, simArea2.canvas.height/2, 22, 12, "red");
+    turnTable2 = new ellipse("simArea2", simArea2.canvas.width/2, simArea2.canvas.height/2, 200, 80);
+    ellipse2 = new ellipse("simArea2", simArea2.canvas.width/2, simArea2.canvas.height/2, 22, 12, "red");
 
     //canvas3
     simArea3.start();
@@ -60,10 +64,8 @@ function startGame() {
     };
 
     // source: https://stackoverflow.com/a/26202266
-    massInput3.oninput = function() {updateTension()};
-    radiusInput3.oninput = function() {updateTension()};
-    angVelInput3.oninput = function() {updateTension()};
-    linVelInput3.oninput = function() {updateTension()};
+
+    minCoefLabel2.onclick = function() {setMinCoef()};
 
 }
 
@@ -265,7 +267,6 @@ function updateSimArea1() {
     ctx.stroke();
     ctx.closePath();
 
-    
 
 
     ///////// Text displays //////////
@@ -299,28 +300,79 @@ function updateSimArea2 () {
 
     simArea2.clear();
 
-    ellipse2.update();
+    ellipse2.mass = parseFloat(massInput2.value);
+    ellipse2.pathRadius = parseFloat(radiusInput2.value) * 20;
+    ellipse2.angularVelocity = parseFloat(angVelInput2.value);
+    coef = parseFloat(coefInput2.value);
 
-    //moving circle
-    frictionEllipse.radians += Math.PI / fps;
+    if (isNaN(ellipse2.mass)) {
+        ellipse2.mass = 0;
+        massInput2.value = 0;
+    }
 
-    xpos = frictionEllipse.initialx - (Math.cos(frictionEllipse.radians) * 85);
-    ypos = frictionEllipse.initialy - (Math.sin(frictionEllipse.radians) * 22);
+    if (isNaN(ellipse2.pathRadius)) {
+        ellipse2.pathRadius = 5;
+    }
 
-    frictionEllipse.x = xpos;
-    frictionEllipse.y = ypos;
-    frictionEllipse.update();
+    if (ellipse2.pathRadius > 200) {
+        ellipse2.pathRadius = 200;
+        radiusInput2.value = 10;
+    }
+
+    if (isNaN(ellipse2.angularVelocity)) {
+        ellipse2.angularVelocity = 0;
+    }
+
+    if (ellipse2.angularVelocity > 20) {
+        ellipse2.angularVelocity = 20;
+        angVelInput2.value = 20;
+    }
+
+    ellipse2.pathRadiusMeters = ellipse2.pathRadius / 20;
+
+    turnTable2.width = 2 * (ellipse2.pathRadius + 15);
+    turnTable2.height = 2 * (ellipse2.pathRadius + 15) * 0.4;
+    turnTable2.update();
 
     //reference line
     ctx.beginPath();
     ctx.moveTo(simArea2.canvas.width/2, simArea2.canvas.height/2);
-    ctx.lineTo(simArea2.canvas.width/2 - (Math.cos(frictionEllipse.radians + Math.PI) * 100),
-        simArea2.canvas.height/2 - (Math.sin(frictionEllipse.radians + Math.PI) * 31));
+    ctx.lineTo(ellipse2.x, ellipse2.y);
     ctx.strokeStyle = "blue";
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.closePath();
+
+    //moving circle
+    ellipse2.radians += ellipse2.angularVelocity / fps;
+
+    xpos = ellipse2.initialx - (Math.cos(ellipse2.radians) * ellipse2.pathRadius);
+    ypos = ellipse2.initialy - (Math.sin(ellipse2.radians) * ellipse2.pathRadius * 0.27);
+
+    ellipse2.x = xpos;
+    ellipse2.y = ypos;
+    ellipse2.update();
+
     
+    
+    cenForce = ellipse2.mass * Math.pow(ellipse2.angularVelocity * ellipse2.pathRadiusMeters, 2) / ellipse2.pathRadiusMeters;
+    cenForceText2.innerHTML = cenForce.toFixed(2);
+
+    fricForce = ellipse2.mass * coef * gravity;
+    if (fricForce > cenForce)
+    {
+        //fricForce = cenForce;
+    }
+    fricForceText2.innerHTML = fricForce.toFixed(2);
+
+
+}
+
+function setMinCoef () {
+
+    minCoef = Math.pow(ellipse2.angularVelocity * ellipse2.pathRadiusMeters, 2) / (ellipse2.pathRadiusMeters * gravity);
+    coefInput2.value = minCoef.toFixed(5);
+
 
 }
 //#endregion updateSimArea2
@@ -332,7 +384,6 @@ function updateSimArea3 () {
 
     width = simArea3.canvas.width;
     height = simArea3.canvas.height;
-
 
     if (simArea3.isPaused == true) {
         if (Math.cos(circle3.radians) <= -0.8 && circle3.x != circle3.initialx - (-circle3.pathRadius))
@@ -431,9 +482,6 @@ function updateSimArea3 () {
     ctx.stroke();
     ctx.closePath();
 
-}
-
-function updateTension () {
     tensionX = (Math.pow((circle3.angularVelocity * pathRadiusMeters), 2) 
         * circle3.mass / pathRadiusMeters).toFixed(2);
     tensionY = circle3.mass * gravity;
@@ -445,20 +493,10 @@ function updateTension () {
     angleText3.innerHTML = angle.toFixed(2);
 
 }
+
 //#endregion updateSimArea3
 
 //#region components
-function rectangle(width, height, color, x, y) {
-    this.width = width;
-    this.height = height;
-    this.x = x;
-    this.y = y; 
-    this.update = function(){
-        ctx = simArea1.context;
-        ctx.fillStyle = color;
-        ctx.fillRect(this.x, this.y, this.width, this.height);
-    }
-}
 
 function circle(simAreaName, x, y, radius, startAngle, endAngle,
     pathRadius = 0, angularVelocity = 0, color = "black", mass = 1) {
@@ -494,23 +532,31 @@ function ellipse(simAreaName, x, y, width, height, color = "black") {
     this.initialy = y;
 
     this.radians = 0;
+    this.angularVelocity = 1;
+    this.mass = 1;
+    this.pathRadius = 100;
+
+    this.width = width;
+    this.height = height;
+
+    this.pathRadiusMeters = 100 / 20;
 
     this.update = function() {
         
         ctx = window[simAreaName].context;
         ctx.beginPath();
         
-        ctx.moveTo(this.x - width/2, this.y); // A1
+        ctx.moveTo(this.x - this.width/2, this.y); // A1
         
         ctx.bezierCurveTo(
-            this.x - width/2, this.y - height/2, // C1
-            this.x + width/2, this.y - height/2, // C2
-            this.x + width/2, this.y); // A2
+            this.x - this.width/2, this.y - this.height/2, // C1
+            this.x + this.width/2, this.y - this.height/2, // C2
+            this.x + this.width/2, this.y); // A2
 
         ctx.bezierCurveTo(
-            this.x + width/2, this.y + height/2, // C3
-            this.x - width/2, this.y + height/2, // C4
-            this.x - width/2, this.y); // A1
+            this.x + this.width/2, this.y + this.height/2, // C3
+            this.x - this.width/2, this.y + this.height/2, // C4
+            this.x - this.width/2, this.y); // A1
         
         ctx.fillStyle = color;
         ctx.fill();

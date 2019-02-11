@@ -2,23 +2,28 @@ body {
     background-color: #313639;
     color: #DADCE0;
     font-family: 'Lato', sans-serif;
+    margin-left: 25vw;
 }
 
 h1 {
+    margin-left: -25vw;
     text-align: center;
     padding-top: 50px;
 }
 
-body {
-    margin-left: 25vw;
-}
-
 p {
     text-align: left;
+    margin-right: 25vw;
+    line-height: 1.5;
+}
+
+p ~ p {
+    padding-top: 20px;
+
 }
 
 input {
-    width: 60px;
+    width: 70px;
     font-family: 'Lato', sans-serif;
     font-size: 16px;
     background-color: #1f1f1f;
@@ -44,11 +49,4 @@ canvas {
     display: block;
     background-color: lightgray;
     border:4px solid gray;
-}
-
-a {
-    padding-top: 4em;
-    padding-bottom: 2em;
-    color: #DADCE0;
-    text-decoration: none;
 }
