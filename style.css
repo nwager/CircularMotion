@@ -45,3 +45,8 @@ canvas {
     background-color: lightgray;
     border:4px solid gray;
 }
+
+a {
+    padding-top: 4em;
+    padding-bottom: 2em;
+}
