@@ -3,23 +3,30 @@ body {
     color: #DADCE0;
     font-family: 'Lato', sans-serif;
     margin-left: 25vw;
+    margin-right: 25vw;
+    margin-top: 0;
 }
 
-h1 {
+.banner {
     margin-left: -25vw;
+    margin-right: -25vw;
     text-align: center;
-    padding-top: 50px;
+    padding-top: 2em;
+    padding-bottom: 2em;
 }
 
 p {
     text-align: left;
-    margin-right: 25vw;
     line-height: 1.5;
 }
 
 p ~ p {
-    padding-top: 20px;
+    padding-top: 1.5em;
 
+}
+
+p:nth-child(2) {
+    border-top: 2px solid red;
 }
 
 input {
@@ -49,4 +56,13 @@ canvas {
     display: block;
     background-color: lightgray;
     border:4px solid gray;
+}
+
+.footer a {
+    padding-top: 8em;
+    padding-bottom: 2em;
+    text-decoration: none;
+    width: 100%;
+    color: lemonchiffon;
+    text-align: center;
 }

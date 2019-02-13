@@ -18,14 +18,21 @@
     <!-- https://www.mathjax.org/ -->
 </head>
 <body>
-    <h1>Uniform Circular Motion</h1>
-    
-    <p><span style="color:lemonchiffon;">Uniform circular motion.</span> The moving object travels in a circular path. 
+    <h1 class="banner">Uniform Circular Motion</h1>
+
+    <p id="p1"><span style="color:lemonchiffon;">Uniform circular motion.</span> The moving object travels in a circular path. 
         The magnitude of linear velocity, acceleration, and centripetal force stays constant, but their direction changes. 
         The red arrow represents the direction of the linear velocity and the black arrow represents the direction of the 
         acceleration and resultant force.
-        </br>
-        Useful equations: \(F_c = {m v^2 \over r}\), \(v = \omega r\)</p>
+        <br>
+        Useful equations: <br>
+        $$
+        \begin{equation}
+        F_c = {m v^2 \over r}
+        v = \omega r
+        \end{equation}
+        $$
+    </p>
 
     <table>
         <tr>
@@ -55,12 +62,18 @@
     <canvas id="canvas1" width="600" height="300">
         Your browser doesn't support canvas.
     </canvas>
-	
+        
     <p></p>
-    <p><span style="color:lemonchiffon;">Maximum friction force.</span> An object is resting on a spinning surface. 
+    <p id="p2"><span style="color:lemonchiffon;">Maximum friction force.</span> An object is resting on a spinning surface. 
         In this scenario, the centripetal force is the force of friction holding the object to the surface.
-        </br>
-        Useful equations: \(F_f = \mu F_N = \mu m g\), \(F_c = {m v^2 \over r}\)
+        <br>
+        Useful equations: <br>
+        $$
+        \begin{equation}
+        F_f = \mu F_N = \mu m g \\
+        F_c = {m v^2 \over r}
+        \end{equation}
+        $$
     </p>
     <table>
             <tr>
@@ -95,12 +108,12 @@
 
     <p></p>
     <p><span style="color:lemonchiffon;">Angled string tension.</span> An object is connected to a point above it
-        by a string, similarly to a tetherball. The object moves around the post in uniform circular motion, 
-        resulating in a tension force being exerted by the string at an angle \(\theta\). The horizontal component
+    by a string, similarly to a tetherball. The object moves around the post in uniform circular motion, 
+    resulating in a tension force being exerted by the string at an angle \(\theta\). The horizontal component
         of the tension force \(F_{Tx}\) is equal to the centripetal force and the vertical component \(F_{Ty}\) is equal
         to \(F_g\).
-        </br>
-        Useful equations: </br>
+        <br>
+        Useful equations: <br>
         $$
         \begin{equation}
         F_{Tx} = {mv^2 \over r} \\
@@ -125,7 +138,7 @@
             </tr>
             <tr>
                 <td>Linear velocity (\(v\))</td>
-                <td><input type="text" id="linearVelocity3" value="2"> m/s</td>
+                <td><span class="display" id="linearVelocity3">number</span> m/s</td>
             </tr>
             <tr>
                 <td>Tension force (\(F_T\))</td>
@@ -155,6 +168,10 @@
     \end{equation}
     $$
     </p>
+
+    <div class="footer">
+        <a href="https://github.com/nwager/CircularMotion">Github Repository</a>
+    </div>
 
 </body>
 </html>

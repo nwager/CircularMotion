@@ -19,7 +19,7 @@ var minCoefLabel2 = document.getElementById("coefLabel2");
 var massInput3 = document.getElementById("mass3");
 var radiusInput3 = document.getElementById("radius3");
 var angVelInput3 = document.getElementById("angularVelocity3");
-var linVelInput3 = document.getElementById("linearVelocity3");
+var linVelText3 = document.getElementById("linearVelocity3");
 var tenForceText3 = document.getElementById("tenForceText3");
 var angleText3 = document.getElementById("angleText3");
 
@@ -245,7 +245,7 @@ function updateSimArea1() {
 
 
     //linear velocity arrow
-    linVel1 = circle1.pathRadius * circle1.angularVelocity;
+    //linVel1 = circle1.pathRadius * circle1.angularVelocity;
 
     drawArrow(xpos, ypos, xpos - Math.cos(circle1.radians + Math.PI/2) * circle1.angularVelocity * 15,
         ypos - Math.sin(circle1.radians + Math.PI/2) * circle1.angularVelocity * 15, "darkred", 3, 5);
@@ -334,15 +334,6 @@ function updateSimArea2 () {
     turnTable2.height = 2 * (ellipse2.pathRadius + 15) * 0.4;
     turnTable2.update();
 
-    //reference line
-    ctx.beginPath();
-    ctx.moveTo(simArea2.canvas.width/2, simArea2.canvas.height/2);
-    ctx.lineTo(ellipse2.x, ellipse2.y);
-    ctx.strokeStyle = "blue";
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.closePath();
-
     //moving circle
     ellipse2.radians += ellipse2.angularVelocity / fps;
 
@@ -353,7 +344,16 @@ function updateSimArea2 () {
     ellipse2.y = ypos;
     ellipse2.update();
 
-    
+    //reference line
+    ctx.beginPath();
+    ctx.moveTo(simArea2.canvas.width/2, simArea2.canvas.height/2);
+    ctx.lineTo(simArea2.canvas.width/2 - (Math.cos(ellipse2.radians + Math.PI) * 0.5 * turnTable2.width), 
+        simArea2.canvas.height/2 - (Math.sin(ellipse2.radians + Math.PI) * 0.38 * turnTable2.height));
+    ctx.strokeStyle = "gray";
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.closePath();
+
     
     cenForce = ellipse2.mass * Math.pow(ellipse2.angularVelocity * ellipse2.pathRadiusMeters, 2) / ellipse2.pathRadiusMeters;
     cenForceText2.innerHTML = cenForce.toFixed(2);
@@ -388,8 +388,17 @@ function updateSimArea3 () {
     if (simArea3.isPaused == true) {
         if (Math.cos(circle3.radians) <= -0.8 && circle3.x != circle3.initialx - (-circle3.pathRadius))
         {
-            xpos = circle3.initialx - (-circle3.pathRadius); // - (Math.cos(Math.PI) * circle3.pathRadius)
-            ypos = circle3.initialy; // - (Math.sin(Math.PI) * 0.25 * circle3.pathRadius)
+            tensionX = (Math.pow((circle3.angularVelocity * pathRadiusMeters), 2) 
+                * circle3.mass / pathRadiusMeters).toFixed(2);
+            tensionY = circle3.mass * gravity;
+            tensionMag = (Math.sqrt(Math.pow(tensionX, 2) + Math.pow(tensionY, 2))).toFixed(2);
+
+            angle = Math.atan(tensionX/tensionY) * 180 / Math.PI;
+            angleText3.innerHTML = angle.toFixed(2);
+
+            xpos = circle3.initialx + circle3.pathRadius;
+            ypos = width/4 + (circle3.pathRadius / Math.tan(angle * Math.PI / 180)) 
+                - (Math.sin(circle3.radians) * 0.25 * circle3.pathRadius);
 
             circle3.x = xpos;
             circle3.y = ypos;
@@ -406,8 +415,17 @@ function updateSimArea3 () {
 
         } else if (Math.cos(circle3.radians) >= 0.8 && circle3.x != circle3.initialx - (circle3.pathRadius))
         {
-            xpos = circle3.initialx - (circle3.pathRadius);
-            ypos = circle3.initialy;
+            tensionX = (Math.pow((circle3.angularVelocity * pathRadiusMeters), 2) 
+                * circle3.mass / pathRadiusMeters).toFixed(2);
+            tensionY = circle3.mass * gravity;
+            tensionMag = (Math.sqrt(Math.pow(tensionX, 2) + Math.pow(tensionY, 2))).toFixed(2);
+
+            angle = Math.atan(tensionX/tensionY) * 180 / Math.PI;
+            angleText3.innerHTML = angle.toFixed(2);
+
+            xpos = circle3.initialx - circle3.pathRadius;
+            ypos = width/4 + (circle3.pathRadius / Math.tan(angle * Math.PI / 180)) 
+                - (Math.sin(circle3.radians) * 0.25 * circle3.pathRadius);
 
             circle3.x = xpos;
             circle3.y = ypos;
@@ -467,8 +485,17 @@ function updateSimArea3 () {
     pathRadiusMeters = circle3.pathRadius / 20;
     circle3.radians += circle3.angularVelocity / fps;
 
+    tensionX = (Math.pow((circle3.angularVelocity * pathRadiusMeters), 2) 
+        * circle3.mass / pathRadiusMeters).toFixed(2);
+    tensionY = circle3.mass * gravity;
+    tensionMag = (Math.sqrt(Math.pow(tensionX, 2) + Math.pow(tensionY, 2))).toFixed(2);
+
+    angle = Math.atan(tensionX/tensionY) * 180 / Math.PI;
+    angleText3.innerHTML = angle.toFixed(2);
+
     xpos = circle3.initialx - (Math.cos(circle3.radians) * circle3.pathRadius);
-    ypos = circle3.initialy - (Math.sin(circle3.radians) * 0.25 * circle3.pathRadius);
+    ypos = width/4 + (circle3.pathRadius / Math.tan(angle * Math.PI / 180)) 
+        - (Math.sin(circle3.radians) * 0.25 * circle3.pathRadius);
 
     circle3.x = xpos;
     circle3.y = ypos;
@@ -482,15 +509,10 @@ function updateSimArea3 () {
     ctx.stroke();
     ctx.closePath();
 
-    tensionX = (Math.pow((circle3.angularVelocity * pathRadiusMeters), 2) 
-        * circle3.mass / pathRadiusMeters).toFixed(2);
-    tensionY = circle3.mass * gravity;
-    tensionMag = (Math.sqrt(Math.pow(tensionX, 2) + Math.pow(tensionY, 2))).toFixed(2);
-
     tenForceText3.innerHTML = tensionMag;
 
-    angle = Math.atan(tensionX/tensionY) * 180 / Math.PI;
-    angleText3.innerHTML = angle.toFixed(2);
+    linVel = circle3.angularVelocity * pathRadiusMeters;
+    linVelText3.innerHTML = linVel.toFixed(2);
 
 }
 
