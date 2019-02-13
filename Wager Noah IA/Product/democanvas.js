@@ -76,19 +76,23 @@ var simArea1 = {
     canvas : document.getElementById("canvas1"),
     isPaused : false,
     start : function() {
-        if (window.innerWidth/2 >= 250)
+        /*if (window.innerWidth/2 >= 250)
         {
             this.canvas.width = window.innerWidth/2;
         } else {
-            this.canvas.width = 250;
+            this.canvas.width = 100;
         }
         if (window.innerHeight/2  >= 250)
         {
             this.canvas.height = window.innerHeight/2;
         }
         else {
-            this.canvas.height = 250;
-        }
+            this.canvas.height = 100;
+        }*/
+        this.canvas.width = window.innerWidth/2;
+        this.canvas.height = window.innerHeight/2;
+
+
 
         this.context = this.canvas.getContext("2d");
         this.interval = setInterval(updateSimArea1, 1000 / fps);
